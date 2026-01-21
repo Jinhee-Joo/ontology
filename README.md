@@ -28,31 +28,13 @@
   - resumptionToken을 활용한 페이지네이션 처리
 
 
-3. 프로젝트 구조
-kci-biology-ontology/
-├─ fetch_kci.py # KCI OAI-PMH에서 논문 메타데이터 수집 스크립트
-├─ data/
-│ └─ papers.csv # 수집된 논문 100편 CSV 파일
-└─ README.md
-
-
-4. 결과 예시
-CSV 파일에는 다음과 같은 컬럼이 포함된다:
-title	
-abstract
-authors	
-keywords
-year
-language	
-
-
-5. 향후 계획
+3. 향후 계획
 - 논문을 Task / Method / Target / Topic 등의 개념으로 분류
 - 개념 간 관계(is-a, alternative-to 등) 정의
 - 키워드 검색과 온톨로지 기반 검색 결과 비교
 - “A지만 B는 아닌 논문”과 같은 의도 기반 검색 구현
 
 
-6. 참고
+4. 참고
 본 프로젝트는 연구/교육 목적의 메타데이터 수집을 목표로 하며 원문(PDF)은 수집하지 않는다.
 데이터는 KCI에서 공식 제공하는 OAI-PMH 프로토콜을 사용하였다

@@ -7,8 +7,8 @@ from typing import Any, Dict, List, Optional, Set
 from google import genai
 from google.genai.errors import ClientError
 
-from extract_software import extract_software, SOFTWARE_TO_METHOD
-from extract_methods import keyword_method_candidates  # ✅ 추가
+from scripts.extract.extract_software import extract_software, SOFTWARE_TO_METHOD
+from scripts.extract.extract_methods import keyword_method_candidates  # ✅ 추가
 
 # ====== 설정 ======
 JSONL_IN = "openalex_evolbio_tiered_500.jsonl"   # 입력 파일

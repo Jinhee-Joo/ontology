@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 
 from google import genai
 
-from extract_software import extract_software, SOFTWARE_TO_METHOD
+from scripts.extract.extract_software import extract_software, SOFTWARE_TO_METHOD
 
 JSONL_IN = "openalex_evolbio_tiered_500.jsonl"   # 너 파일명
 JSONL_OUT = "paper_annotations_30.jsonl"

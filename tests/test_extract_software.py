@@ -1,4 +1,4 @@
-from extract_software import extract_software
+from scripts.extract.extract_software import extract_software
 
 # 테스트용 논문 1편 
 title = "Contrasting signatures of genomic divergence during sympatric speciation"

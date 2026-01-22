@@ -8,13 +8,13 @@ from typing import Any, Dict, List, Optional, Set
 from google import genai
 from google.genai.errors import ClientError
 
-from extract_software import extract_software, SOFTWARE_TO_METHOD
-from extract_methods import keyword_method_candidates
+from scripts.extract.extract_software import extract_software, SOFTWARE_TO_METHOD
+from scripts.extract.extract_methods import keyword_method_candidates
 
-from extract_datatype import keyword_datatype_candidates
-from extract_taxon import keyword_taxon_candidates, keyword_model_organisms
+from scripts.extract.extract_datatype import keyword_datatype_candidates
+from scripts.extract.extract_taxon import keyword_taxon_candidates, keyword_model_organisms
 from extract_assumptions import keyword_assumption_candidates
-from extract_context import keyword_context_candidates
+from scripts.extract.extract_context import keyword_context_candidates
 
 # ====== 설정 ======
 JSONL_IN = "openalex_evolbio_tiered_500.jsonl"     # 입력 파일

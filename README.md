@@ -1,3 +1,12 @@
+## Project Structure
+
+- `data/raw` : OpenAlex 원본 메타데이터
+- `data/annotations` : LLM 기반 논문 annotation 결과
+- `data/csv` : Neo4j / 분석용 CSV
+- `scripts/` : 수집·annotation·feature 추출 파이프라인
+- `import/` : Neo4j import 단계별 스크립트
+
+
 Dataset Size Note (Why 453 papers, not exactly 500?)
 
 This dataset intentionally prioritizes ontology quality over raw size.

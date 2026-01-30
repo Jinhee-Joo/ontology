@@ -30,7 +30,7 @@ D-EXPRESS Ontology Project
 - 데이터 출처: OpenAlex (https://openalex.org)
 - 수집 범위:
   - 생물학 / 진화생물학 분야 학술 논문
-  - 논문 수: 약 400편 (초기 실험 규모)
+  - 논문 수: 약 400편
 - 수집 항목:
   - 제목 (title)
   - 초록 (abstract)

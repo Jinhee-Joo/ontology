@@ -1,4 +1,4 @@
-# D-EXPRESS Ontology Project
+D-EXPRESS Ontology Project
 
 본 프로젝트는 영문 생물학(진화생물학) 분야 논문(OpenAlex 기반)을 온톨로지 관점에서 재구성하고 탐색하기 위한 실험적 연구 프로젝트이다.
 

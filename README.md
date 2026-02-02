@@ -1,59 +1,74 @@
-## Project Structure
+D-EXPRESS Ontology Project
 
-- `data/raw` : OpenAlex 원본 메타데이터
-- `data/annotations` : LLM 기반 논문 annotation 결과
-- `data/csv` : Neo4j / 분석용 CSV
-- `scripts/` : 수집·annotation·feature 추출 파이프라인
-- `import/` : Neo4j import 단계별 스크립트
+본 프로젝트는 영문 생물학(진화생물학) 분야 논문(OpenAlex 기반)을 온톨로지 관점에서 재구성하고 탐색하기 위한 실험적 연구 프로젝트이다.
 
+기존 키워드 기반 논문 검색의 한계를 보완하기 위해 논문을 단순 텍스트가 아닌 연구 의도(Task), 방법(Method), 대상(Taxon/Domain), 데이터(DataType)등의 개념과 관계의 집합으로 모델링하는 것을 목표로 한다.
 
-Dataset Size Note (Why 453 papers, not exactly 500?)
+수집된 논문 메타데이터는 Neo4j 그래프 데이터베이스에 온톨로지 형태로 구축되며 Streamlit(VS Code 기반)으로 구현된 웹 인터페이스를 통해 탐색·검색할 수 있다.
 
-This dataset intentionally prioritizes ontology quality over raw size.
-The final count (453 papers) reflects a conservative, structure-first sampling strategy rather than a fixed-number crawl.
+---
 
-본 데이터셋은 OpenAlex로부터 수집한 논문을 온톨로지 구축 목적에 맞게 선별(tiering)한 결과이며, 최종 논문 수는 453편이다.
-이는 오류나 누락이 아니라 의도적인 품질 중심 필터링의 결과이다.
+1. 프로젝트 개요
 
-🔹 Tiered Sampling Strategy
-본 프로젝트에서는 논문을 다음과 같은 2단계(Tier) 기준으로 선별했다.
+- 주제: 생물학(진화생물학) 분야 논문 온톨로지 기반 검색 및 탐색
+- 문제의식:
+  - 기존 논문 검색은 제목/초록 중심의 문자열 검색에 의존
+  - 실제 탐색 의도는  
+    → 무엇을 연구했는가(Task) 
+    → 어떤 방법을 사용했는가(Method)
+    → 어떤 생물/대상을 다루는가(Taxon/Domain)
+    와 같은 개념 구조 검색 문제
+- 접근 방식:
+  - OpenAlex API를 이용해 영문 생물학 논문 메타데이터 수집
+  - 논문을 개념 단위로 분해하여 온톨로지 그래프(Neo4j)로 표현
+  - Streamlit 기반 인터페이스에서 의도 중심 탐색 기능 구현
 
-Tier 1 (Core papers)
-evolutionary biology와의 개념적 연관성 점수(evolbio_score) 가 높은 논문
-핵심 개념 구조를 안정적으로 형성하기 위한 정확도 우선 샘플
+---
 
-Tier 2 (Extended papers)
-점수는 다소 낮지만 관련 주제 확장을 위한 논문
-온톨로지의 개념 다양성과 확장성 확보 목적
+2. 데이터 수집
 
-초기 목표는
-Tier 1: 250편
-Tier 2: 250편
-총 500편 이었으나,
+- 데이터 출처: OpenAlex (https://openalex.org)
+- 수집 범위:
+  - 생물학 / 진화생물학 분야 학술 논문
+  - 논문 수: 약 400편
+- 수집 항목:
+  - 제목 (title)
+  - 초록 (abstract)
+  - 저자 (authors)
+  - 발행연도 (year)
+  - 키워드 / 개념 (concepts)
+  - 참고문헌 정보 (references)
+- 수집 방식:
+  - OpenAlex REST API 활용
+  - 분야/키워드 기반 필터링 후 메타데이터 수집
 
-🔹 Why fewer than 500?
-OpenAlex 데이터의 실제 분포상 높은 개념 연관성(evolbio_score)을 만족하는 Tier 1 후보 수가 제한적이었고 무작정 기준을 완화할 경우,
-온톨로지의 핵심 개념이 흐려지고 “의미 기반 검색 / 설명 가능성”이라는 프로젝트 목표가 약화될 위험이 있었다.
-따라서 본 프로젝트에서는 데이터 수를 인위적으로 맞추기보다 온톨로지 품질을 우선하는 보수적 선택을 채택했다.
+---
 
-그 결과:
-Tier 1: 203편
-Tier 2: 250편
-Total: 453 papers
+3. 온톨로지 및 시스템 구현
 
-🔹 Why this is acceptable (and desirable)
-온톨로지는 데이터 양보다 개념 구조의 명확성이 핵심입니다. 본 데이터셋은 핵심 개념(Tier 1)을 중심으로 안정적인 구조를 형성하고 Tier 2를 통해 도메인 확장과 탐색 가능성을 확보합니다.
-향후 기준 완화 또는 도메인 확장을 통해 자연스럽게 확장 가능한 구조입니다.
+- 온톨로지 구성 요소
+  - ResearchTask (연구 목적)
+  - Method (분석 방법)
+  - Taxon / Domain (연구 대상)
+  - DataType / Software (사용 데이터 및 도구)
+- 그래프 DB
+  - Neo4j 기반 노드–관계 모델링
+- 탐색 UI
+  - Streamlit + PyVis 기반 그래프 시각화
+  - 개념 조합(Task + Method + Taxon)에 따른 논문 탐색
 
-🔹 Validation
-수집된 모든 논문은 다음 검증을 통과했습니다.
-JSON 파싱 무결성 검사
-tier 값 및 score 범위 검증
-연도(year) 범위 검증
-domain 분포 확인
+---
 
-검증 스크립트:
-validate_json.py
-validate_tier_json.py
+4. 향후 확장 계획
 
+- 논문 수 확장 및 자동 개념 추출 고도화
+- 개념 간 관계 유형 정교화 (hierarchy, usage,dependency 등)
+- 키워드 검색 vs 온톨로지 기반 검색 결과 비교 분석
+- A이지만 B는 아닌 논문,같은 방법을 쓰지만 대상이 다른 연구와 같은 의도 중심 질의(Explanation-ready Search) 구현
 
+---
+
+5. 참고
+
+본 프로젝트는 연구 및 교육 목적의 메타데이터 분석을 목표로 하며  
+논문 원문(PDF)은 수집하지 않는다. 모든 데이터는 OpenAlex에서 제공하는 공개 메타데이터를 기반으로 한다.
